@@ -1,0 +1,17 @@
+def main_dashboard(role):
+    dashboard = Tk()
+    dashboard.title("Rice Mill ERP")
+    dashboard.geometry("600x500")
+
+    Label(dashboard, text=f"Logged in as: {role}", font=("Arial", 12)).pack()
+
+    Button(dashboard, text="Add Mill", width=25, command=add_mill).pack(pady=5)
+    Button(dashboard, text="Add Product", width=25, command=add_product).pack(pady=5)
+    Button(dashboard, text="Add Party", width=25, command=add_party).pack(pady=5)
+    Button(dashboard, text="Purchase Entry", width=25, command=purchase_entry).pack(pady=5)
+    Button(dashboard, text="Sale Entry", width=25, command=sale_entry).pack(pady=5)
+    Button(dashboard, text="Processing Batch", width=25, command=processing_entry).pack(pady=5)
+    Button(dashboard, text="Add Staff", width=25, command=add_staff).pack(pady=5)
+    Button(dashboard, text="Add Vehicle", width=25, command=add_vehicle).pack(pady=5)
+
+    dashboard.mainloop()
