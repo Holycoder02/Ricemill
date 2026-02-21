@@ -21,10 +21,10 @@ if errorlevel 1 (
 echo [1/4] Checking Python installation... OK
 
 REM Check if PyInstaller is installed
-pip show pyinstaller >nul 2>&1
+python -m pip show pyinstaller >nul 2>&1
 if errorlevel 1 (
     echo [2/4] Installing PyInstaller...
-    pip install pyinstaller
+    python -m pip install pyinstaller
     if errorlevel 1 (
         echo ERROR: Failed to install PyInstaller
         pause
