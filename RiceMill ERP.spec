@@ -2,11 +2,21 @@
 
 
 a = Analysis(
-    ['create.py'],
+    ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[
+        ('db', 'db'),
+        ('auth', 'auth'),
+        ('ui', 'ui'),
+        ('utils', 'utils'),
+    ],
+    hiddenimports=[
+        'db', 'db.connection', 'db.schema', 'db.models',
+        'auth', 'auth.password',
+        'ui', 'ui.theme', 'ui.components', 'ui.login', 'ui.dashboard', 'ui.invoice',
+        'utils', 'utils.validators', 'utils.formatters',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

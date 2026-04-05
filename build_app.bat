@@ -18,35 +18,59 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [1/4] Checking Python installation... OK
+echo [1/5] Checking Python installation... OK
 
 REM Check if PyInstaller is installed
 python -m pip show pyinstaller >nul 2>&1
 if errorlevel 1 (
-    echo [2/4] Installing PyInstaller...
+    echo [2/5] Installing PyInstaller...
     python -m pip install pyinstaller
     if errorlevel 1 (
         echo ERROR: Failed to install PyInstaller
         pause
         exit /b 1
     )
-    echo [2/4] PyInstaller installed successfully
+    echo [2/5] PyInstaller installed successfully
 ) else (
-    echo [2/4] PyInstaller already installed... OK
+    echo [2/5] PyInstaller already installed... OK
 )
 
+REM Install requirements
+echo [3/5] Installing dependencies...
+python -m pip install -r requirements.txt >nul 2>&1
+echo [3/5] Dependencies installed... OK
+
 REM Clean old build files
-echo [3/4] Cleaning old build files...
+echo [4/5] Cleaning old build files...
 if exist "build" rmdir /s /q build
 if exist "dist" rmdir /s /q dist
-if exist "*.spec" del /q *.spec
-echo [3/4] Cleaned successfully
+echo [4/5] Cleaned successfully
 
 REM Build the executable
-echo [4/4] Building executable (this may take 1-2 minutes)...
+echo [5/5] Building executable (this may take 1-2 minutes)...
 echo.
 
-pyinstaller --onefile --windowed --name "RiceMill ERP" create.py
+pyinstaller --onefile --windowed --name "RiceMill ERP" ^
+    --add-data "db;db" ^
+    --add-data "auth;auth" ^
+    --add-data "ui;ui" ^
+    --add-data "utils;utils" ^
+    --hidden-import "db" ^
+    --hidden-import "db.connection" ^
+    --hidden-import "db.schema" ^
+    --hidden-import "db.models" ^
+    --hidden-import "auth" ^
+    --hidden-import "auth.password" ^
+    --hidden-import "ui" ^
+    --hidden-import "ui.theme" ^
+    --hidden-import "ui.components" ^
+    --hidden-import "ui.login" ^
+    --hidden-import "ui.dashboard" ^
+    --hidden-import "ui.invoice" ^
+    --hidden-import "utils" ^
+    --hidden-import "utils.validators" ^
+    --hidden-import "utils.formatters" ^
+    app.py
 
 if errorlevel 1 (
     echo.
